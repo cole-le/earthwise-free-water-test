@@ -225,12 +225,11 @@ footer b{color:var(--ink)}
       </ul>
     </div>
 
-    <div class="phone" id="phone">
+    <div class="phone has-video" id="phone">
       <div class="screen">
-        <span class="adlabel">AD PREVIEW</span>
+        <span class="adlabel">SAMPLE AD</span>
         <button class="sound" type="button" id="sound" aria-label="Turn sound on">Tap for sound</button>
-        <img src="https://static.wixstatic.com/media/ffcef4_63ee79f38ad54b4db13373410c23a6e0f002.jpg/v1/fill/w_640,h_1138,q_85/jars.jpg" alt="Two jars of water samples on a sunny Phoenix street" id="poster">
-        <div class="tag" id="phonetag"><b>What's in your tap water?</b>Find out free, at your home, in one visit.</div>
+        <video id="ad" src="ad.mp4" poster="ad-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Sample ad for the free water test"></video>
       </div>
     </div>
   </div>
@@ -410,17 +409,9 @@ footer b{color:var(--ink)}
   function onScroll(){var r=book.getBoundingClientRect();var inView=r.top<window.innerHeight&&r.bottom>0;bar.classList.toggle('show',window.scrollY>420&&!inView);}
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-  // the ad video, when the page has one (ad.mp4 next to this page)
-  var phoneEl=document.getElementById('phone'), poster=document.getElementById('poster');
-  var v=document.createElement('video');
-  v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('muted','');v.preload='metadata';
-  if(poster.getAttribute('data-video-poster'))v.poster=poster.getAttribute('data-video-poster');
-  v.addEventListener('loadeddata',function(){
-    poster.replaceWith(v);phoneEl.classList.add('has-video');
-    var t=document.getElementById('phonetag');if(t)t.remove();
-    var p=v.play();if(p&&p.catch)p.catch(function(){});
-  },{once:true});
-  v.src='ad.mp4';
+  // the sample ad: plays muted, tap for sound
+  var v=document.getElementById('ad');
+  v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){});
   var s=document.getElementById('sound');
   s.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play();}s.textContent=v.muted?'Tap for sound':'Sound on';});
 })();
